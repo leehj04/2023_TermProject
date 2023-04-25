@@ -1,11 +1,10 @@
-import kr.ac.konkuk.ccslab.cm.*;
 import kr.ac.konkuk.ccslab.cm.stub.CMClientStub;
 
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
-import java.io.Console;
 
 public class CMClientApp {
     private CMClientStub m_clientStub;
@@ -26,6 +25,8 @@ public class CMClientApp {
     {
         return m_eventHandler;
     }
+
+
 
     public static void main(String[] args){
 
@@ -69,7 +70,11 @@ public class CMClientApp {
             e.printStackTrace();
         }
 
+        System.out.println("user name: "+strUserName);
+        System.out.println("password: "+strPassword);
+
         bRequestResult = clientStub.loginCM(strUserName, strPassword);
+
         if(bRequestResult)
             System.out.println("successfully sent the login request.");
         else
