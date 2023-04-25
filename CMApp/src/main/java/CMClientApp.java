@@ -1,3 +1,6 @@
+import kr.ac.konkuk.ccslab.cm.entity.CMUser;
+import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
+import kr.ac.konkuk.ccslab.cm.info.CMInteractionInfo;
 import kr.ac.konkuk.ccslab.cm.stub.CMClientStub;
 
 import java.io.BufferedReader;
@@ -25,8 +28,6 @@ public class CMClientApp {
     {
         return m_eventHandler;
     }
-
-
 
     public static void main(String[] args){
 
@@ -82,6 +83,26 @@ public class CMClientApp {
 
         // System.out.println("Press enter to execute next API:");
         // Scanner.nextLine();
+
+        CMInteractionInfo interInfo = clientStub.getCMInfo().getInteractionInfo();
+        CMUser myself = interInfo.getMyself();
+
+        System.out.println("===== test CMDummyEvent in current group");
+        BufferedReader br2 = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("input message: ");
+        String strInput = null;
+        try {
+            strInput = br2.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        CMDummyEvent due = new CMDummyEvent();
+        due.setHandlerSession(myself.getCurrentSession());
+        due.setHandlerGroup(myself.getCurrentGroup());
+        due.setDummyInfo(strInput);
+        clientStub.cast(due, myself.getCurrentSession(), myself.getCurrentGroup());
+        due = null;
 
 
     }
