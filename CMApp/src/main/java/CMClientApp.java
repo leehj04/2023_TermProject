@@ -104,6 +104,36 @@ public class CMClientApp {
         clientStub.cast(due, myself.getCurrentSession(), myself.getCurrentGroup());
         due = null;
 
+        String strFileName = null;
+        String strFileOwner = null;
+        BufferedReader br3 = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("===== request a file");
+        try {
+            System.out.print("File name: ");
+            strFileName = br3.readLine();
+            System.out.print("File owner(server name): ");
+            strFileOwner = br3.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        clientStub.requestFile(strFileName, strFileOwner);
+
+        String strFilePath = null;
+        String strReceiver = null;
+        BufferedReader br4 = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("===== push a file");
+        try {
+            System.out.print("File path name: ");
+            strFilePath = br4.readLine();
+            System.out.print("File receiver: ");
+            strReceiver = br4.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        clientStub.pushFile(strFilePath, strReceiver);
+
 
     }
 }

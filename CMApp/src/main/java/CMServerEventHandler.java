@@ -1,8 +1,5 @@
 import kr.ac.konkuk.ccslab.cm.entity.CMSessionInfo;
-import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
-import kr.ac.konkuk.ccslab.cm.event.CMEvent;
-import kr.ac.konkuk.ccslab.cm.event.CMInterestEvent;
-import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
+import kr.ac.konkuk.ccslab.cm.event.*;
 import kr.ac.konkuk.ccslab.cm.event.handler.CMAppEventHandler;
 import kr.ac.konkuk.ccslab.cm.info.CMConfigurationInfo;
 import kr.ac.konkuk.ccslab.cm.info.CMInfo;
@@ -31,6 +28,9 @@ public class CMServerEventHandler implements CMAppEventHandler {
                 break;
             case CMInfo.CM_DUMMY_EVENT:
                 processDummyEvent(cme);
+                break;
+            case CMInfo.CM_FILE_EVENT:
+                processFileEvent(cme);
                 break;
             default:
                 return;
@@ -85,6 +85,25 @@ public class CMServerEventHandler implements CMAppEventHandler {
         CMDummyEvent due = (CMDummyEvent) cme;
         System.out.println("session("+due.getHandlerSession()+"), group("+due.getHandlerGroup()+")");
         System.out.println("dummy msg: "+due.getDummyInfo());
+        return;
+    }
+
+    private void processFileEvent(CMEvent cme)
+    {
+        CMFileEvent fe = (CMFileEvent) cme;
+        switch (fe.getID())
+        {
+            case CMFileEvent.REPLY_PERMIT_PULL_FILE:
+                if(fe.getReturnCode() == -1)
+                {
+                    System.err.print("["+fe.getFileName()+"] does not exist in the owner!\n");
+                }
+                else if(fe.getReturnCode() == 0)
+                {
+                    System.err.print("["+fe.getFileSender()+"] rejects to send file("+fe.getFileName()+").\n");
+                }
+                break;
+        }
         return;
     }
 
