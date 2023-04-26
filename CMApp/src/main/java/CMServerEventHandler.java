@@ -102,6 +102,9 @@ public class CMServerEventHandler implements CMAppEventHandler {
                 {
                     System.err.print("["+fe.getFileSender()+"] rejects to send file("+fe.getFileName()+").\n");
                 }
+                else {
+                    System.out.print("["+fe.getFileSender()+"] send file("+fe.getFileName()+").\n");
+                }
                 break;
         }
         return;

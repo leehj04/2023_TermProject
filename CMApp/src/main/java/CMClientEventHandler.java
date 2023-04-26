@@ -1,5 +1,6 @@
 import kr.ac.konkuk.ccslab.cm.entity.CMSessionInfo;
 import kr.ac.konkuk.ccslab.cm.event.CMEvent;
+import kr.ac.konkuk.ccslab.cm.event.CMFileEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
 import kr.ac.konkuk.ccslab.cm.event.handler.CMAppEventHandler;
 import kr.ac.konkuk.ccslab.cm.info.CMInfo;
@@ -21,6 +22,9 @@ public class CMClientEventHandler implements CMAppEventHandler {
         {
             case CMInfo.CM_SESSION_EVENT:
                 processSessionEvent(cme);
+                break;
+            case CMInfo.CM_FILE_EVENT:
+                processFileEvent(cme);
                 break;
             default:
                 return;
@@ -54,6 +58,29 @@ public class CMClientEventHandler implements CMAppEventHandler {
         }
 
     }
+
+    private void processFileEvent(CMEvent cme)
+    {
+        CMFileEvent fe = (CMFileEvent) cme;
+        switch (fe.getID())
+        {
+            case CMFileEvent.REPLY_PERMIT_PULL_FILE:
+                if(fe.getReturnCode() == -1)
+                {
+                    System.err.print("["+fe.getFileName()+"] does not exist in the owner!\n");
+                }
+                else if(fe.getReturnCode() == 0)
+                {
+                    System.err.print("["+fe.getFileSender()+"] rejects to send file("+fe.getFileName()+").\n");
+                }
+                else {
+                    System.out.print("["+fe.getFileSender()+"] send file("+fe.getFileName()+").\n");
+                }
+                break;
+        }
+        return;
+    }
+
     private void processRESPONSE_SESSION_INFO(CMSessionEvent se)
     {
         Iterator<CMSessionInfo> iter = se.getSessionInfoList().iterator();
