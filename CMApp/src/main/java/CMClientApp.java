@@ -105,7 +105,7 @@ public class CMClientApp {
 
         System.out.println("===== test CMDummyEvent in current group");
         BufferedReader br2 = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("input message: ");
+        System.out.print("input message: ");
         String strInput = null;
         try {
             strInput = br2.readLine();

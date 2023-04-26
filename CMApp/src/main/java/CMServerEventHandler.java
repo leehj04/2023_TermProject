@@ -48,6 +48,7 @@ public class CMServerEventHandler implements CMAppEventHandler {
                 if(confInfo.isLoginScheme())
                 {
                     boolean ret = CMDBManager.authenticateUser(se.getUserName(), se.getPassword(), m_serverStub.getCMInfo());
+                    System.out.println(ret);
                     if(!ret)
                     {
                         System.out.println("["+se.getUserName()+"] authentication fails!");
@@ -83,8 +84,8 @@ public class CMServerEventHandler implements CMAppEventHandler {
     private void processDummyEvent(CMEvent cme)
     {
         CMDummyEvent due = (CMDummyEvent) cme;
-        System.out.println("session("+due.getHandlerSession()+"), group("+due.getHandlerGroup()+")");
-        System.out.println("dummy msg: "+due.getDummyInfo());
+        System.out.println("session("+due.getHandlerSession()+"), group("+due.getHandlerGroup()+"), user("+due.getSender()+")");
+        System.out.println("message: "+due.getDummyInfo());
         return;
     }
 
