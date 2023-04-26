@@ -1,5 +1,6 @@
 import kr.ac.konkuk.ccslab.cm.entity.CMUser;
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
+import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
 import kr.ac.konkuk.ccslab.cm.info.CMInteractionInfo;
 import kr.ac.konkuk.ccslab.cm.stub.CMClientStub;
 
@@ -55,6 +56,7 @@ public class CMClientApp {
         String strPassword = null;
         boolean bRequestResult = false;
         Console console = System.console();
+        CMSessionEvent loginAckEvent = null;
 
         System.out.print("user name: ");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -71,13 +73,27 @@ public class CMClientApp {
             e.printStackTrace();
         }
 
-        System.out.println("user name: "+strUserName);
-        System.out.println("password: "+strPassword);
+        // System.out.println("user name: "+strUserName);
+        // System.out.println("password: "+strPassword);
 
-        bRequestResult = clientStub.loginCM(strUserName, strPassword);
-
+        loginAckEvent = clientStub.syncLoginCM(strUserName, strPassword);
+        // bRequestResult = clientStub.loginCM(strUserName, strPassword);
+        /*
         if(bRequestResult)
             System.out.println("successfully sent the login request.");
+        else
+            System.err.println("failed the login request!");
+        */
+
+        if(loginAckEvent != null)
+        {
+            if(loginAckEvent.isValidUser() == 0)
+                System.err.println("This client fails authentication by the default server!");
+            else if(loginAckEvent.isValidUser() == -1)
+                System.err.println("This client is already in the login-user list!");
+            else
+                System.out.println("This client successfully logs in to the default server.");
+        }
         else
             System.err.println("failed the login request!");
 
