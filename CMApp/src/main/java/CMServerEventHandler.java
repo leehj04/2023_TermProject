@@ -48,7 +48,6 @@ public class CMServerEventHandler implements CMAppEventHandler {
                 if(confInfo.isLoginScheme())
                 {
                     boolean ret = CMDBManager.authenticateUser(se.getUserName(), se.getPassword(), m_serverStub.getCMInfo());
-                    System.out.println(ret);
                     if(!ret)
                     {
                         System.out.println("["+se.getUserName()+"] authentication fails!");
