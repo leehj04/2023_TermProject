@@ -2,6 +2,7 @@ import kr.ac.konkuk.ccslab.cm.entity.CMUser;
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMSessionEvent;
 import kr.ac.konkuk.ccslab.cm.info.CMInteractionInfo;
+import kr.ac.konkuk.ccslab.cm.info.enums.CMFileSyncMode;
 import kr.ac.konkuk.ccslab.cm.stub.CMClientStub;
 
 import java.io.BufferedReader;
@@ -28,6 +29,21 @@ public class CMClientApp {
     public CMClientEventHandler getClientEventHandler()
     {
         return m_eventHandler;
+    }
+
+    private void testStartFileSyncWithManualMode() {
+        System.out.println("========== start file-sync with manual mode");
+
+        m_eventHandler.setStartTimeOfFileSync(System.currentTimeMillis());
+
+        boolean ret = m_clientStub.startFileSync(CMFileSyncMode.MANUAL);
+        if(!ret) {
+            System.err.println("Start error of file sync with manual mode!");
+            m_eventHandler.setStartTimeOfFileSync(0);
+        }
+        else {
+            System.out.println("File sync with manual mode starts.");
+        }
     }
 
     public static void main(String[] args){
@@ -149,7 +165,7 @@ public class CMClientApp {
         }
 
         clientStub.pushFile(strFilePath, strReceiver);
-
-
     }
+
+
 }

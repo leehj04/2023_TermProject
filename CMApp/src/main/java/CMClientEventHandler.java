@@ -10,10 +10,12 @@ import java.util.Iterator;
 
 public class CMClientEventHandler implements CMAppEventHandler {
     private CMClientStub m_clientStub;
+    private long startTimeOfFileSync;
 
     public CMClientEventHandler(CMClientStub clientStub)
     {
         m_clientStub = clientStub;
+        startTimeOfFileSync = 0;
     }
 
     @Override
@@ -96,6 +98,12 @@ public class CMClientEventHandler implements CMAppEventHandler {
                     tInfo.getUserNum());
         }
     }
+
+    public void setStartTimeOfFileSync(long startTimeOfFileSync) {
+        this.startTimeOfFileSync = startTimeOfFileSync;
+    }
+
+
 
 
 }
